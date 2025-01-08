@@ -1,0 +1,85 @@
+#### RPC url
+$ starkli block-number --rpc https://free-rpc.nethermind.io/sepolia-juno/
+
+https://free-rpc.nethermind.io/sepolia-juno/
+https://free-rpc.nethermind.io/mainnet-juno/
+
+### export
+export STARKNET_RPC="https://free-rpc.nethermind.io/sepolia-juno/"
+
+
+#### signer
+$ starkli signer keystore new ~/keystore/key.json
+
+Created new encrypted keystore file: /home/limitlxx/keystore/key.json
+Public key: 0x04f51a86ee047ae9e9be1258b19a704943203c76c69d7c36765d8c1d8a10ddac
+
+### export
+$ export STARKNET_KEYSTORE="~/keystore/key.json"
+
+$ starkli account oz init ~/keystore/account.json --keystore ~/keystore/key.json
+
+### create account
+Created new account config file: /home/limitlxx/keystore/account.json
+
+Once deployed, this account will be available at:
+    0x013a3d9c4cc056f5b6b8229de67a28625fb328ced545a7daf77f233b6a79bdf2
+
+Deploy this account by running:
+    starkli account deploy /home/limitlxx/keystore/account.json
+
+
+### deploy
+$ starkli account deploy ~/keystore/account.json
+
+The estimated account deployment fee is 0.000000457348884736 ETH. However, to avoid failure, fund at least:
+    0.000000686023327104 ETH
+to the following address:
+    0x013a3d9c4cc056f5b6b8229de67a28625fb328ced545a7daf77f233b6a79bdf2
+# send eth faucet
+Account deployment transaction: 0x00018969131a46cb970ae0a6515e0f02d2c35799b33c56e6525d8f09b38606a3
+Waiting for transaction 0x00018969131a46cb970ae0a6515e0f02d2c35799b33c56e6525d8f09b38606a3 to confirm. If this process is interrupted, you will need to run `starkli account fetch` to update the account file.
+Transaction not confirmed yet...
+Transaction 0x00018969131a46cb970ae0a6515e0f02d2c35799b33c56e6525d8f09b38606a3 confirmed
+
+## export
+$ export STARKNET_ACCOUNT="~/keystore/account.json"
+
+
+///////
+
+##### build contract
+$ scarb build
+
+## Declare class
+$ starkli declare --watch /home/limitlxx/Blockheader/oldArk/oarkmine/target/dev/oarkmine_DealerContract.contract_class.json
+
+
+Declaring Cairo 1 class: 0x0093f1fd17dca205bfaff70f1ebf543a68f0a3ec762bb122fac19fe1c4ce9d3e
+Compiling Sierra class to CASM with compiler version 2.9.1...
+CASM class hash: 0x055e7225618d79aeba2a94bb68a86cc8eecdca7fc59effbcd8c7025d890f7a96
+Contract declaration transaction: 0x06f0f27bab7807665e7f6656fd8ce7085ce74c40a78369538c341401cc8f3cc2
+Waiting for transaction 0x06f0f27bab7807665e7f6656fd8ce7085ce74c40a78369538c341401cc8f3cc2 to confirm...
+Transaction not confirmed yet...
+Transaction 0x06f0f27bab7807665e7f6656fd8ce7085ce74c40a78369538c341401cc8f3cc2 confirmed
+Class hash declared:
+0x0093f1fd17dca205bfaff70f1ebf543a68f0a3ec762bb122fac19fe1c4ce9d3e
+
+
+### Deploy class
+$ starkli deploy <CLASS_HASH> <CTOR_ARGS>
+
+// convert text to felt252
+$ starkli to-cairo-string starkli
+0x737461726b6c69
+
+## deploy
+$ starkli deploy --watch 0x0093f1fd17dca205bfaff70f1ebf543a68f0a3ec762bb122fac19fe1c4ce9d3e 0x013a3d9c4cc056f5b6b8229de67a28625fb328ced545a7daf77f233b6a79bdf2
+
+The contract will be deployed at address 0x0576d3e438f45facdd1300075495a67bfd07f231db63da5a71bdf5a7dbe6ff61
+Contract deployment transaction: 0x030187a5a4a48f29120561f527bce6daffe2f42b6b01152505dc5ab308ae0ed9
+Waiting for transaction 0x030187a5a4a48f29120561f527bce6daffe2f42b6b01152505dc5ab308ae0ed9 to confirm...
+Transaction not confirmed yet...
+Transaction 0x030187a5a4a48f29120561f527bce6daffe2f42b6b01152505dc5ab308ae0ed9 confirmed
+Contract deployed:
+0x0576d3e438f45facdd1300075495a67bfd07f231db63da5a71bdf5a7dbe6ff61
