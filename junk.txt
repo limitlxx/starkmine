@@ -83,3 +83,9 @@ Transaction not confirmed yet...
 Transaction 0x030187a5a4a48f29120561f527bce6daffe2f42b6b01152505dc5ab308ae0ed9 confirmed
 Contract deployed:
 0x0576d3e438f45facdd1300075495a67bfd07f231db63da5a71bdf5a7dbe6ff61
+
+
+oarkmine_DealerContract
+0x0576d3e438f45facdd1300075495a67bfd07f231db63da5a71bdf5a7dbe6ff61
+
+oarkmine_VaultContract
