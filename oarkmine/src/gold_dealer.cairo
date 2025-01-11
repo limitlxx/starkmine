@@ -43,8 +43,10 @@ mod DealerContract {
             self.ownable.initializer(initial_owner);
         }
     
-        // set KYC to true/false for an address
+        // set KYC to true/false for dealer's address
         // KYC will be submitted off-chain on the kyc application table
+        // This should be called on off-chain kyc sumit
+        // Add completekyc event
         #[external(v0)]
         fn complete_kyc(ref self: ContractState, dealer: ContractAddress) {
             self.ownable.assert_only_owner();
@@ -52,6 +54,8 @@ mod DealerContract {
         }
     
         // Approve/Disapprove an address to list gold
+        // called by only owner
+        // Add approvedealer event
         #[external(v0)]
         fn approve_dealer(ref self: ContractState, dealer: ContractAddress) { 
             self.ownable.assert_only_owner();
@@ -59,7 +63,7 @@ mod DealerContract {
             self._approved_dealers.entry(dealer).write(true);
         }
      
-        // Check a dealer is approved
+        // Check for approved dealer
         #[external(v0)]
         fn is_approved_dealer(self: @ContractState, dealer: ContractAddress) -> bool {
             // check address exist in dealers mapping
@@ -67,6 +71,7 @@ mod DealerContract {
         }
 
         // Upgrade the contract
+        // add upgrade event
         #[external(v0)]
         fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
             self.ownable.assert_only_owner();

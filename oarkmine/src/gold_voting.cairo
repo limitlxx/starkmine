@@ -21,6 +21,13 @@ mod GoldVoting {
     #[abi(per_item)]
     #[generate_trait]
     impl GoldVoting of GoldVotingTrait {
+
+        #[constructor]
+    fn constructor(
+        ref self: ContractState,){
+            // declare _gold_nft_address
+        }
+        
         #[external(v0)]
         fn create_proposal(
             ref self: ContractState,
@@ -70,6 +77,16 @@ mod GoldVoting {
                 }
             );
         }
+
+        // only owner
+        #[external(v0)]
+        fn executed_proposal(
+            ref self: ContractState,
+            token_id: u256,
+        ){
+
+        }
+
 
         // Upgrade the contract
         #[external(v0)]

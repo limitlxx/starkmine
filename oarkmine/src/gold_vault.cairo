@@ -19,13 +19,10 @@ mod GoldVault {
 
 
     #[storage]
-    struct Storage {
-        _balances: Map<(u256, ContractAddress), u256>,
-        _gold_nft_contract: ContractAddress,
-         gold_locations: Map<u256, felt252>,
-        _gold_statuses: Map<u256, GoldStatus>,
-        _authorized_auditors: Map<ContractAddress, bool>,
+    struct Storage { 
+        _gold_statuses: Map<u256, GoldStatus>, 
         _escrow_address: ContractAddress,
+        _dealers_address: ContractAddress,
         #[substorage(v0)]
         ownable: OwnableComponent::Storage,
         #[substorage(v0)]
@@ -54,9 +51,10 @@ mod GoldVault {
     enum Event {
         GoldReceived: GoldReceived,
         GoldVerified: GoldVerified,
-        AuditInitiated: AuditInitiated,
-        GoldWithdrawn: GoldWithdrawn,
     }
+
+    // Create event struct for GoldReceived & GoldVerified
+    // Add necessary events
 
     #[event]
     #[derive(Drop, starknet::Event)]
@@ -69,23 +67,28 @@ mod GoldVault {
     #[generate_trait] 
     impl GoldVault of GoldVaultTrait {
         #[constructor]
-        fn constructor(ref self: ContractState, gold_nft_contract: ContractAddress, owner: ContractAddress) {
-            self._gold_nft_contract.write(gold_nft_contract);
+        fn constructor(ref self: ContractState, escrow_contract: ContractAddress, dealer_contract: ContractAddress, owner: ContractAddress) {
+            self._escrow_address.write(escrow_contract);
+            self._dealers_address.write(dealer_contract)
             self.ownable.initializer(owner);
         }
     
+        // Dealer submit gold for verification
+        // call dealers contract; To be called by approved dealers
         #[external(v0)]
         fn receive_gold(
             ref self: ContractState,
             token_id: u256,
             location_hash: felt252
         ) {
-            self.ownable.assert_only_owner();
             self._gold_locations.write(token_id, location_hash);
             self._gold_statuses.write(token_id, GoldStatus::Pending);
             self.emit(GoldReceived { token_id, location_hash });
         }
     
+        // Notify contract that the gold is in vault
+        // Update gold vault kyc to true
+        // Unlock pool
         #[external(v0)]
         fn verify_gold(ref self: ContractState, token_id: u256) {
             self.ownable.assert_only_owner();
@@ -96,7 +99,22 @@ mod GoldVault {
             self.emit(GoldVerified { token_id });
         }
 
+        // Create function to set escrow contract address
+        // only owner
+        #[external(v0)]
+        fn set_escrow_contract(ref self: ContractState, escrow_contract: ContractAddress,){
+
+        }
+
+        // Create function to set dealers contract address
+        // only owner
+        #[external(v0)]
+        fn set_dealer_contract(ref self: ContractState, dealer_contract: ContractAddress,){
+            
+        }
+
         // Upgrade the contract
+        // only owner
         #[external(v0)]
         fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
             self.ownable.assert_only_owner();

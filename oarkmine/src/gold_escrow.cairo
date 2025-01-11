@@ -22,7 +22,8 @@ mod GoldEscrow {
 
     #[storage]
     struct Storage {
-        _vault_address: ContractAddress, 
+        _vault_address: ContractAddress,
+        _gold_nft_address: ContractAddress,  
         _locked_pools: Map<u256, bool>,
         _pool_balances: Map<u256, u256>,
         _kyc_status: Map<u256, bool>,
@@ -85,33 +86,33 @@ mod GoldEscrow {
         #[constructor]
         fn constructor(
             ref self: ContractState,
-            vault_address: ContractAddress, 
             _owner: ContractAddress
         ) {
-            self._vault_address.write(vault_address); 
             self.ownable.initializer(_owner);
         }
 
-        fn withdraw_extra_fee_fund(ref self: ContractState, receiver: ContractAddress) {
-            self.ownable.assert_only_owner();
-            let eth_dispatcher = ERC20ABIDispatcher {
-                contract_address: contract_address_const::<
-                    0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7,
-                >() // ETH Contract Address
-            };
-            let balance = eth_dispatcher.balance_of(get_contract_address());
-            eth_dispatcher.transfer(receiver, balance);
+        // Create function to set gold nft contract address
+        // only owner
+        #[external(v0)]
+        fn set_gold_nft_contract(ref self: ContractState, dealer_contract: ContractAddress){
+            self._gold_nft_address.write(vault_address); 
         }
 
+        // Create function to set vault contract address
+        // only owner
+        #[external(v0)]
+        fn set_vault_contract(ref self: ContractState, vault_address: ContractAddress){            
+            self._vault_address.write(vault_address); 
+        }
+
+        // Retailers deposite to a minted gold pool
         #[external(v0)]
         fn deposit_to_pool(
             ref self: ContractState, 
             token_id: u256, 
             amount: u256, 
             address: ContractAddress
-        ) {
-            assert(!self._locked_pools.read(token_id), 'POOL_IS_LOCKED');
-            
+        ) {            
             // Transfer STRK from sender to escrow
             let strk = IERC20Dispatcher::from_address(self._strk_token.read());
             strk.transfer_from(address, get_contract_address(), amount);
@@ -123,6 +124,9 @@ mod GoldEscrow {
             self.emit(FundsDeposited { token_id, amount, address });
         }
 
+        // Dealers can claim strk from gold pool
+        // pool must be unlocked
+        // Call Gold NFT ontract
         #[external(v0)]
         fn claim_payment(ref self: ContractState, token_id: u256) {
             let gold_nft = IGoldNFT::from_address(self._gold_nft_contract.read());
@@ -147,6 +151,9 @@ mod GoldEscrow {
             });
         }
 
+        // withdraw fee from _mint_fee_balances
+        // Collect fee when minting gold in the gold nft contract
+        // only owner
         #[external(v0)]
         fn collect_mint_fee(
             ref self: ContractState, 
@@ -164,6 +171,9 @@ mod GoldEscrow {
             });
         }
 
+        // withdraw fee from _transfer_fee_balances
+        // Collect fee when transfer or selling in the gold nft contract
+        // only owner
         #[external(v0)]
         fn collect_transfer_fee(
             ref self: ContractState,
@@ -192,6 +202,7 @@ mod GoldEscrow {
             self._total_pool_fees.write(token_id, current_fees + amount);
         }
 
+        // Only owner
         #[external(v0)]
         fn withdraw_pool_fees(
             ref self: ContractState,
@@ -221,6 +232,12 @@ mod GoldEscrow {
             assert(get_caller_address() == self._vault_address.read(), 'NOT_VAULT');
             self._kyc_status.write(token_id, true);
             self.unlock_pool(token_id);
+        }
+
+        // Refund users funds
+        #[external(v0)]
+        fn refund_retailers_pool(ref self: ContractState, retailer_address: ContractAddress, token_id: u256) {
+            
         }
 
         #[external(v0)]

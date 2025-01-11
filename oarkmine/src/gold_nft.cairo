@@ -68,15 +68,12 @@ mod GoldNFT {
         _token_counter: u256,
         _ipfs_metadata: Map<u256, IPFSData>,
         _fractions_data: Map<u256, FractionsData>,
-        _secondary_market_fees: Map<u256, u256>,
         _token_status: Map<u256, TokenStatus>,
-        _allowed_minters: Map<ContractAddress, bool>,
         _paused: bool,
         _ownership_data: LegacyMap<(u256, ContractAddress), OwnershipData>,
         _token_uri_data: LegacyMap<u256, TokenURIData>,
         _total_holders: LegacyMap<u256, u256>
         _fee_config: FeeConfig,
-        _royalty_config: RoyaltyConfig,
         _pool_royalties: Map<u256, PoolRoyalty>,
         _collected_fees: Map<ContractAddress, u256>   
         #[substorage(v0)]
@@ -135,6 +132,8 @@ mod GoldNFT {
         UpgradeableEvent: UpgradeableComponent::Event,
     }
 
+
+    // Add necessary events struct as required
     #[event]
     #[derive(Drop, starknet::Event)]
     enum Event {
@@ -176,15 +175,13 @@ mod GoldNFT {
         vault_address: ContractAddress,
         dealer_contract: ContractAddress,
         escrow_address: ContractAddress,
-        royalty_percentage: u8,
         owner: ContractAddress,
         mint_fee: u256,
         transfer_fee: u256
     ) {
         self._vault_address.write(vault_address);
         self._dealer_contract.write(dealer_contract);
-        self._escrow_address.write(escrow_address),
-        self._royalty_config.write(royalty_percentage);
+        self._escrow_address.write(escrow_address);
         self._contract_owner.initializer(owner);
         self._paused.write(false);
  
@@ -313,8 +310,7 @@ mod GoldNFT {
     }
 
     // Change token status to active fractional purchase
-    // Would integrate with vault contract to verify gold is in vault
-    // called by contract internally
+    // only owner
     #[external(v0)]
     fn activate_token(ref self: ContractState, token_id: u256) {
         let gold_data = self._gold_data.read(token_id); 
@@ -325,7 +321,8 @@ mod GoldNFT {
         self.emit(TokenStatusChanged { token_id, new_status: TokenStatus::Active });
     }
 
-    // Make this an internal function
+    // force update metadata 
+    // only owner
     #[external(v0)]
     fn update_metadata(
         ref self: ContractState,
@@ -555,14 +552,14 @@ mod GoldNFT {
         });
     }
 
-    // Add function to view pool royalty information
+    // function to view pool royalty information
     #[external(v0)]
     fn get_pool_royalty(self: @ContractState, token_id: u256) -> (u256, ContractAddress) {
         let pool_royalty = self._pool_royalties.read(token_id);
         (pool_royalty.dealer_fee, pool_royalty.dealer)
     }
 
-    // Add function to update pool royalty (only by dealer)
+    // function to update pool royalty (only by dealer)
     #[external(v0)]
     fn update_pool_royalty(
         ref self: ContractState,
@@ -636,15 +633,6 @@ mod GoldNFT {
         ...
     }
 
-    #[external(v0)]
-    fn set_allowed_minter(
-        ref self: ContractState,
-        minter: ContractAddress,
-        allowed: bool
-    ) {
-        assert(get_caller_address() == self._owner.read(), 'NOT_OWNER');
-        self._allowed_minters.write(minter, allowed);
-    }
 
     #[external(v0)]
     fn emergency_pause(ref self: ContractState) {
