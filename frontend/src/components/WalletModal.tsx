@@ -12,8 +12,8 @@ interface WalletModalProps {
 }
 
 const walletIcons = {
-  argentX: "/public/argent.svg",
-  braavos: "/public/braavos.svg",
+  argentX: "/argent.svg",
+  braavos: "/braavos.svg",
 };
 
 export function WalletModal({ isOpen, setIsOpen }: WalletModalProps) {
