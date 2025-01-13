@@ -21,14 +21,14 @@ export default function Header() {
           <Image
             src={logo}
             alt="logo icon"
-            width={40}
-            height={40}
+            width={50}
+            height={50}
             className="rounded-full"
           />
           <h1
             className={`text-xl sm:text-2xl md:text-3xl ${righteous.className} uppercase text-foreground`}
           >
-            BeamX
+            StarkMine
           </h1>
         </div>
 
