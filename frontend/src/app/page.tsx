@@ -39,7 +39,7 @@ const pools: GoldPool[] = [
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(1)
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isSidebarOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [filters, setFilters] = useState<FilterState>({
     pool: [],

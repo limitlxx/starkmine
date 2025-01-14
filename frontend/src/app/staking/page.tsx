@@ -23,8 +23,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { Slider } from "@/components/ui/slider"
-import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import { Slider } from "@/components/ui/slider" 
 
 export default function StakingPage() {
   const [lendAmount, setLendAmount] = useState<number>(0)

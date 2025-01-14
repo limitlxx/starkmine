@@ -14,7 +14,7 @@ import { Header } from "@/components/header";
 
 
 export default function NFTDetail() {
-  const [view, setView] = useState<'preview' | 'code'>('preview')
+  // const [view, setView] = useState<'preview' | 'code'>('preview')
   const [isBuySellOpen, setIsBuySellOpen] = useState(false)
 
   const stats = [

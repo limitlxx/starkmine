@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Copy, ChevronRight } from 'lucide-react'
+import { Copy } from 'lucide-react'
 import Image from "next/image"
 
 interface BuySellModalProps {
@@ -25,7 +25,7 @@ interface BuySellModalProps {
 
 export function BuySellModal({ isOpen, onClose, nft }: BuySellModalProps) {
   const [quantity, setQuantity] = useState(1)
-  const [step, setStep] = useState<'select' | 'summary'>('select')
+  // const [step, setStep] = useState<'select' | 'summary'>('select')
 
   const total = quantity * nft.pricePerFraction
 
