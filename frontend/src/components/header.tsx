@@ -1,16 +1,17 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Menu, LayoutDashboard, BookOpen, HelpCircle } from 'lucide-react'
-import Image from "next/image"
-import Link from "next/link"
-import { ThemeToggle } from "./theme-toggle"
+} from "@/components/ui/dropdown-menu";
+import { Menu, LayoutDashboard, BookOpen, HelpCircle } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { ThemeToggle } from "./theme-toggle";
+import WalletBar from "./WalletBar";
 
 export function Header() {
   return (
@@ -27,30 +28,52 @@ export function Header() {
           <span className="text-lg font-bold text-white">STARKMINE</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="/" className="text-zinc-300 hover:text-white transition-colors">
+          <Link
+            href="/"
+            className="text-zinc-300 hover:text-white transition-colors"
+          >
             Pools
           </Link>
-          <Link href="/staking" className="text-zinc-300 hover:text-white transition-colors">
+          <Link
+            href="/staking"
+            className="text-zinc-300 hover:text-white transition-colors"
+          >
             Staking
           </Link>
-          <Link href="/governance" className="text-zinc-300 hover:text-white transition-colors">
+          <Link
+            href="/governance"
+            className="text-zinc-300 hover:text-white transition-colors"
+          >
             Governance
           </Link>
-          <Link href="/docs" className="text-zinc-300 hover:text-white transition-colors">
+          <Link
+            href="/docs"
+            className="text-zinc-300 hover:text-white transition-colors"
+          >
             Docs
           </Link>
         </nav>
         <div className="flex items-center gap-4">
-          <Button variant="default" className="bg-orange-500 text-white hover:bg-orange-600">
-            Connect Wallet
+          <Button
+            variant="default"
+            className="bg-orange-500 text-white hover:bg-orange-600"
+          >
+            <WalletBar />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-zinc-300 hover:text-white">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-zinc-300 hover:text-white"
+              >
                 <Menu className="h-6 w-6" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 bg-zinc-800 text-white border-zinc-700">
+            <DropdownMenuContent
+              align="end"
+              className="w-56 bg-zinc-800 text-white border-zinc-700"
+            >
               <DropdownMenuItem asChild>
                 <Link href="/dealer-dashboard" className="flex items-center">
                   <LayoutDashboard className="mr-2 h-4 w-4" />
@@ -78,6 +101,5 @@ export function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }
-
