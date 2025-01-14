@@ -23,11 +23,11 @@ mod GoldVoting {
     impl GoldVoting of GoldVotingTrait {
 
         #[constructor]
-    fn constructor(
+     fn constructor(
         ref self: ContractState,){
             // declare _gold_nft_address
         }
-        
+
         #[external(v0)]
         fn create_proposal(
             ref self: ContractState,
