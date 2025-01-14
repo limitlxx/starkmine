@@ -38,7 +38,7 @@ export function Sidebar({ className = "", onFilterChange, onSortChange, onClose 
 
   const router = useRouter()
 
-  const handleFilterChange = (key: keyof FilterState, value: any) => {
+  const handleFilterChange = (key: keyof FilterState, value: any|string) => {
     let newFilters: FilterState;
     if (key === 'pool' || key === 'size') {
       newFilters = {

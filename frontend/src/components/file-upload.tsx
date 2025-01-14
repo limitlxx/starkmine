@@ -9,7 +9,7 @@ interface FileUploadProps {
   value?: File | null
 }
 
-export function FileUpload({ label, onChange, accept = ".pdf,.doc,.docx", value }: FileUploadProps) {
+export function FileUpload({ label, onChange, accept = ".pdf,.doc,.docx" }: FileUploadProps) {
   const [file, setFile] = useState<File | null>(null)
 
   const handleFileChange = (selectedFile: File | null) => {

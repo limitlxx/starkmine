@@ -31,7 +31,7 @@ export default function RegisterMiner() {
         proofOfGoldSource: null,
     })
 
-    const updateForm = (key: keyof RegistrationForm, value: any) => {
+    const updateForm = (key: keyof RegistrationForm, value: any | string) => {
         setForm(prev => ({ ...prev, [key]: value }))
     }
 
@@ -161,7 +161,7 @@ export default function RegisterMiner() {
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Back to home
                     </Link>
-                    <h1 className="text-3xl font-bold text-white">Dealer's KYC</h1>
+                    <h1 className="text-3xl font-bold text-white">Dealer&apos;s KYC</h1>
                     <p className="mt-2 text-zinc-400">
                         To start creating fractional gold NFT begin by providing the required information and documents.
                     </p>

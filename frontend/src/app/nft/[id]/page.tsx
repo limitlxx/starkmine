@@ -166,7 +166,7 @@ export default function NFTDetail() {
                 </div>
                 <div>
                   <div className="text-sm text-zinc-400">Insurance</div>
-                  <div className="font-medium text-white">Fully insured by Lloyd's of London</div>
+                  <div className="font-medium text-white">Fully insured by Lloyd&apos;s of London</div>
                 </div>
               </div>
             </Card>
