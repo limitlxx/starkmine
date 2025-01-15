@@ -7,6 +7,7 @@ const dealerRoutes = require('./routes/dealer.routes');
 const goldRoutes = require('./routes/gold.routes');
 const storageRoutes = require('./routes/storage.routes');
 const auditRoutes = require('./routes/audit.routes');
+const authRoutes = require('./routes/auth.routes');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/api/dealers', dealerRoutes);
 app.use('/api/gold', goldRoutes);
 app.use('/api/storage', storageRoutes);
 app.use('/api/audit', auditRoutes);
+app.use('/api/auth', authRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
