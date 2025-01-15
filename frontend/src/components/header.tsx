@@ -1,5 +1,5 @@
 "use client"
-
+import WalletBar from "./walletbar";
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -41,9 +41,10 @@ export function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
-          <Button variant="default" className="bg-orange-500 text-white hover:bg-orange-600">
-            Connect Wallet
-          </Button>
+        <div className="bg-orange-600 rounded-xl text-white hover:bg-orange-700 transition-colors">
+            <WalletBar />
+          </div>
+          
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="text-zinc-300 hover:text-white">
