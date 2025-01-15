@@ -83,8 +83,25 @@ mod GoldVoting {
         fn executed_proposal(
             ref self: ContractState,
             token_id: u256,
-        ){
+        ) {
+            // 1. Check owner
+            let caller = get_caller_address();
+            assert(caller == self.owner.read(), 'Only owner can execute');
 
+            // 2. Verify the proposal exists
+            let proposal = self.proposals.read(token_id);
+            assert(!proposal.is_executed, 'Proposal already executed');
+            
+            // 3. Check if voting period has ended and proposal passed
+            let current_time = get_block_timestamp();
+            assert(current_time > proposal.end_time, 'Voting still active');
+            assert(proposal.votes_for > proposal.votes_against, 'Proposal did not pass');
+
+            // 4. Mark proposal as executed
+            self.proposals.write(token_id, Proposal { is_executed: true, ..proposal });
+
+            // 5. Emit event
+            self.emit(ProposalExecuted { token_id });
         }
 
 
