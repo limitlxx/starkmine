@@ -4,18 +4,38 @@ const fs = require('fs').promises;
 
 exports.createDealer = async (req, res) => {
   try {
-    const files = req.files;
+    console.log(req.body);
+    
+    const files = req.files || {};
     const dealerData = {
-      ...req.body,
-      governmentIssuedId: files.governmentId[0].path,
-      proofOfAddress: files.proofOfAddress[0].path,
-      certificateOfIncorporation: files.certificateOfIncorporation[0].path,
-      memorandumArticles: files.memorandumArticles[0].path,
-      businessLicense: files.businessLicense[0].path,
-      sourceOfFunds: files.sourceOfFunds[0].path,
-      bankStatements: files.bankStatements[0].path,
-      proofOfGoldSource: files.proofOfGoldSource[0].path
+      ...req.body
     };
+
+    // Only add file paths if files were uploaded
+    if (files.governmentId?.[0]) {
+      dealerData.governmentIssuedId = files.governmentId[0].path;
+    }
+    if (files.proofOfAddress?.[0]) {
+      dealerData.proofOfAddress = files.proofOfAddress[0].path;
+    }
+    if (files.certificateOfIncorporation?.[0]) {
+      dealerData.certificateOfIncorporation = files.certificateOfIncorporation[0].path;
+    }
+    if (files.memorandumArticles?.[0]) {
+      dealerData.memorandumArticles = files.memorandumArticles[0].path;
+    }
+    if (files.businessLicense?.[0]) {
+      dealerData.businessLicense = files.businessLicense[0].path;
+    }
+    if (files.sourceOfFunds?.[0]) {
+      dealerData.sourceOfFunds = files.sourceOfFunds[0].path;
+    }
+    if (files.bankStatements?.[0]) {
+      dealerData.bankStatements = files.bankStatements[0].path;
+    }
+    if (files.proofOfGoldSource?.[0]) {
+      dealerData.proofOfGoldSource = files.proofOfGoldSource[0].path;
+    }
     
     const dealer = new Dealer(dealerData);
     await dealer.save();
@@ -24,7 +44,7 @@ exports.createDealer = async (req, res) => {
       entityType: 'dealer',
       entityId: dealer._id,
       action: 'create',
-      performedBy: req.user.id,
+      performedBy: dealerData.walletAddress,
       ipAddress: req.ip,
       userAgent: req.get('user-agent')
     });
@@ -40,6 +60,7 @@ exports.createDealer = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 exports.getDealers = async (req, res) => {
   try {

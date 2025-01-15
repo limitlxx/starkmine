@@ -11,12 +11,40 @@ All API endpoints require a valid JWT token in the Authorization header:
 Authorization: Bearer <your_jwt_token>
 ```
 
+### Create Auth Token
+```http
+POST /api/auth/
+Content-Type: json
+```
+
+**Request body**
+```json
+{
+    "walletAddress" : "0x0004456770000099990000000000000"
+}
+```
+
 ## Dealers API Endpoints
 
 ### Create Dealer (KYC Registration)
 ```http
-POST /dealers
+POST /api/dealers/
 Content-Type: multipart/form-data
+Body: form-data
+Keys:
+- governmentId (File) -> select file
+- proofOfAddress (File) -> select file
+- certificateOfIncorporation (File) -> select file
+- memorandumArticles (File) -> select file
+- businessLicense (File) -> select file
+- sourceOfFunds (File) -> select file
+- bankStatements (File) -> select file
+- proofOfGoldSource (File) -> select file
+- legalName (Text) -> "Dealer Name"
+- dateOfBirth (Text) -> "Dealer Name"
+- legalName (Text) -> "Dealer Name"
+- address (Text) -> "dealer@example.com"
+[Add any other dealer fields your schema requires]
 ```
 
 **Form Fields:**
@@ -28,11 +56,11 @@ Content-Type: multipart/form-data
 - `governmentId` (file, required): Government-issued ID document
 - `proofOfAddress` (file, required): Address proof document
 - `certificateOfIncorporation` (file, required): Company incorporation certificate
-- `memorandumArticles` (file, required): Memorandum and articles of association
-- `businessLicense` (file, required): Business license document
-- `sourceOfFunds` (file, required): Source of funds documentation
-- `bankStatements` (file, required): Recent bank statements
-- `proofOfGoldSource` (file, required): Documentation proving gold source
+- `memorandumArticles` (file, optional): Memorandum and articles of association
+- `businessLicense` (file, optional): Business license document
+- `sourceOfFunds` (file, optional): Source of funds documentation
+- `bankStatements` (file, optional): Recent bank statements
+- `proofOfGoldSource` (file, optional): Documentation proving gold source
 
 **Response Example:**
 ```json

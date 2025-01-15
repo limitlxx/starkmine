@@ -5,20 +5,22 @@ const dealerSchema = new mongoose.Schema({
   legalName: { type: String, required: true },
   dateOfBirth: { type: Date, required: true },
   address: { type: String, required: true },
+  email: { type: String, required: true },
   
   // Business Information
   governmentIssuedId: { type: String, required: true },
   proofOfAddress: { type: String, required: true },
   certificateOfIncorporation: { type: String, required: true },
-  memorandumArticles: { type: String, required: true },
   tinNumber: { type: String, required: true },
-  businessLicense: { type: String, required: true },
-  
-  // Additional Documents
-  sourceOfFunds: { type: String, required: true },
-  bankStatements: { type: String, required: true },
-  proofOfGoldSource: { type: String, required: true },
   walletAddress: { type: String, required: true },
+
+
+  // Additional Documents
+  proofOfGoldSource: { type: String, required: false },
+  sourceOfFunds: { type: String, required: false },
+  bankStatements: { type: String, required: false },
+  memorandumArticles: { type: String, required: false },
+  businessLicense: { type: String, required: false },
   
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   createdAt: { type: Date, default: Date.now },

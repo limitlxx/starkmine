@@ -15,3 +15,16 @@ exports.authenticate = async (req, res, next) => {
     res.status(401).json({ error: 'Invalid token' });
   }
 };
+
+exports.generateToken = async (walletAddress) => {
+  try {
+    const payload = { walletAddress }; // Include walletAddress in the payload
+    const expiresIn = '12h'; // Token expiration time (12 hours)
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
+    return token;
+  } catch (error) {
+    console.error('Error generating token:', error);
+    throw error; // Re-throw the error for proper handling
+  }
+};
