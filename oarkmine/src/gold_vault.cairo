@@ -47,11 +47,15 @@ mod GoldVault {
         UpgradeableEvent: UpgradeableComponent::Event,
     }
 
-    #[event]
     #[derive(Drop, starknet::Event)]
-    enum Event {
-        GoldReceived: GoldReceived,
-        GoldVerified: GoldVerified,
+    struct GoldReceived {
+        token_id: u256,
+        location_hash: felt252,
+    }
+
+    #[derive(Drop, starknet::Event)]
+    struct GoldVerified {
+        token_id: u256,
     }
 
     // Create event struct for GoldReceived & GoldVerified
