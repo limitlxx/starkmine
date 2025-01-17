@@ -6,6 +6,7 @@ mod DealerContract {
     use openzeppelin::access::ownable::OwnableComponent; 
     use openzeppelin::upgrades::UpgradeableComponent;
     use starknet::{ClassHash, ContractAddress};
+    use oarkmine::errors::Errors;
  
     // External
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent); 
@@ -45,24 +46,22 @@ mod DealerContract {
     
         // set KYC to true/false for dealer's address
         // KYC will be submitted off-chain on the kyc application table
-        // This should be called on off-chain kyc sumit
-        // Add completekyc event
+        // This should be called on off-chain kyc submit
         #[external(v0)]
-        fn complete_kyc(ref self: ContractState, dealer: ContractAddress) {
-            self.ownable.assert_only_owner();
-            self._kyc_status.entry(dealer).write(true);
+        fn complete_kyc(ref self: ContractState, dealer: ContractAddress, status: bool) {
+            self._kyc_status.entry(dealer).write(status);
         }
     
         // Approve/Disapprove an address to list gold
         // called by only owner
         // Add approvedealer event
         #[external(v0)]
-        fn approve_dealer(ref self: ContractState, dealer: ContractAddress) { 
+        fn approve_dealer(ref self: ContractState, dealer: ContractAddress, status: bool) { 
             self.ownable.assert_only_owner();
-            assert(self._kyc_status.entry(dealer).read(), 'KYC_NOT_COMPLETED');
-            self._approved_dealers.entry(dealer).write(true);
+            assert(self._kyc_status.entry(dealer).read(), Errors::KYC_NOT_COMPLETE);
+            self._approved_dealers.entry(dealer).write(status);
         }
-     
+    
         // Check for approved dealer
         #[external(v0)]
         fn is_approved_dealer(self: @ContractState, dealer: ContractAddress) -> bool {
@@ -81,3 +80,5 @@ mod DealerContract {
 
     
 }
+
+//class-hash-0x27ad4511b22d57d18138acb26b467ad13de69ca6c9f6edfc63ca4e39c783ec8

@@ -7,6 +7,7 @@ mod GoldVault {
     use openzeppelin::upgrades::interface::IUpgradeable;
     use openzeppelin::upgrades::UpgradeableComponent;
     use starknet::{ClassHash, ContractAddress};
+    use oarkmine::errors;
  
     // External
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent); 
@@ -46,11 +47,15 @@ mod GoldVault {
         UpgradeableEvent: UpgradeableComponent::Event,
     }
 
-    #[event]
     #[derive(Drop, starknet::Event)]
-    enum Event {
-        GoldReceived: GoldReceived,
-        GoldVerified: GoldVerified,
+    struct GoldReceived {
+        token_id: u256,
+        location_hash: felt252,
+    }
+
+    #[derive(Drop, starknet::Event)]
+    struct GoldVerified {
+        token_id: u256,
     }
 
     // Create event struct for GoldReceived & GoldVerified
@@ -81,6 +86,7 @@ mod GoldVault {
             token_id: u256,
             location_hash: felt252
         ) {
+            assert(location_hash != 0, errors::INVALID_LOCATION_HASH);
             self._gold_locations.write(token_id, location_hash);
             self._gold_statuses.write(token_id, GoldStatus::Pending);
             self.emit(GoldReceived { token_id, location_hash });
@@ -92,6 +98,8 @@ mod GoldVault {
         #[external(v0)]
         fn verify_gold(ref self: ContractState, token_id: u256) {
             self.ownable.assert_only_owner();
+            let current_status = self._gold_statuses.read(token_id);
+            assert(current_status == GoldStatus::Pending, errors::INVALID_GOLD_STATUS);
             self._gold_statuses.write(token_id, GoldStatus::InVault);
             
             // Notify escrow
@@ -102,15 +110,19 @@ mod GoldVault {
         // Create function to set escrow contract address
         // only owner
         #[external(v0)]
-        fn set_escrow_contract(ref self: ContractState, escrow_contract: ContractAddress,){
-
+        fn set_escrow_contract(ref self: ContractState, escrow_contract: ContractAddress) {
+            self.ownable.assert_only_owner();
+            assert(!escrow_contract.is_zero(), errors::INVALID_ESCROW_ADDRESS);
+            self._escrow_address.write(escrow_contract);
         }
 
         // Create function to set dealers contract address
         // only owner
         #[external(v0)]
-        fn set_dealer_contract(ref self: ContractState, dealer_contract: ContractAddress,){
-            
+        fn set_dealer_contract(ref self: ContractState, dealer_contract: ContractAddress) {
+            self.ownable.assert_only_owner();
+            assert(!dealer_contract.is_zero(), errors::INVALID_DEALER_ADDRESS);
+            self._dealers_address.write(dealer_contract);
         }
 
         // Upgrade the contract
