@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const path = require('path');
 
 const connectDB = require('./config/database');
 const dealerRoutes = require('./routes/dealer.routes');
@@ -18,6 +19,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/', express.static(path.join(__dirname, 'public')))
 
 // Routes
 app.use('/api/dealers', dealerRoutes);
