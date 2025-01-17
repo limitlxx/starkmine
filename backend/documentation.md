@@ -2,7 +2,7 @@
 
 ## Base URL
 ```
-https://api.example.com/api
+https://starkmine.onrender.com/api
 ```
 
 ## Authentication
