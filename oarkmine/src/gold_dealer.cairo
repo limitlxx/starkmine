@@ -6,6 +6,7 @@ mod DealerContract {
     use openzeppelin::access::ownable::OwnableComponent; 
     use openzeppelin::upgrades::UpgradeableComponent;
     use starknet::{ClassHash, ContractAddress};
+    use oarkmine::errors::Errors;
  
     // External
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent); 
@@ -59,10 +60,10 @@ mod DealerContract {
         #[external(v0)]
         fn approve_dealer(ref self: ContractState, dealer: ContractAddress) { 
             self.ownable.assert_only_owner();
-            assert(self._kyc_status.entry(dealer).read(), 'KYC_NOT_COMPLETED');
+            assert(self._kyc_status.entry(dealer).read(), Errors::KYC_NOT_COMPLETE);
             self._approved_dealers.entry(dealer).write(true);
         }
-     
+    
         // Check for approved dealer
         #[external(v0)]
         fn is_approved_dealer(self: @ContractState, dealer: ContractAddress) -> bool {
