@@ -2,6 +2,7 @@ import React from 'react'
 import { Diamond, CreditCard, ChevronRight } from 'lucide-react'
 
 interface GoldNFTPreviewProps {
+  title: string
   weight: string
   purity: string
   serialNumber: string
@@ -9,6 +10,7 @@ interface GoldNFTPreviewProps {
 }
 
 export function GoldNFTPreview({
+  title,
   weight,
   purity,
   serialNumber,
@@ -144,7 +146,7 @@ export function GoldNFTPreview({
       </div>
 
       <div className="absolute bottom-8 right-8 flex items-center space-x-1 text-white/90">
-        <span className="text-sm font-semibold">VERIFIED</span>
+        <span className="text-sm font-semibold">{title}</span>
         <ChevronRight className="w-4 h-4" />
       </div>
     </div>

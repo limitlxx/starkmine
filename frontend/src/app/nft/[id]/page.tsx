@@ -1,8 +1,8 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card" 
-import { Footer } from "@/components/footer" 
+import { Card } from "@/components/ui/card"
+import { Footer } from "@/components/footer"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PriceChart } from "@/components/price-chart"
 import { RelatedNFTs } from "@/components/related-nfts"
 import { Header } from "@/components/header";
+import { GoldNFTPreview } from "@/components/gold-nft-preview"
 
 
 export default function NFTDetail() {
@@ -75,19 +76,17 @@ export default function NFTDetail() {
               </TabsList>
               <TabsContent value="preview" className="rounded-lg bg-zinc-900 p-4">
                 <div className="aspect-square w-full max-w-[400px] mx-auto">
-                  <Image
-                    src="/placeholder.svg"
-                    alt="Gold NFT Preview"
-                    width={400}
-                    height={400}
-                    className="rounded-lg"
-                  />
+                  <GoldNFTPreview
+                    title='Gold NFT'
+                    weight='0'
+                    purity='0'
+                    serialNumber='n/a' issueDate={""} />
                 </div>
               </TabsContent>
               <TabsContent value="code">
                 <pre className="rounded-lg bg-zinc-900 p-4 overflow-x-auto">
                   <code className="text-sm text-white">
-                            {`{
+                    {`{
                             "name": "250 Gram Gold NFT",
                             "description": "This NFT represents 250 grams of 99.9% pure gold",
                             "image": "ipfs://...",
