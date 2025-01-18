@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Menu, LayoutDashboard, BookOpen, HelpCircle } from 'lucide-react'
+import { Menu, LayoutDashboard, BookOpen, HelpCircle, User } from 'lucide-react'
 import Image from "next/image"
 import Link from "next/link"
 import { ThemeToggle } from "./theme-toggle"
@@ -31,7 +31,7 @@ export function Header() {
             Pools
           </Link>
           <Link href="/staking" className="text-zinc-300 hover:text-white transition-colors">
-            Staking
+            Lending
           </Link>
           <Link href="/governance" className="text-zinc-300 hover:text-white transition-colors">
             Governance
@@ -56,6 +56,18 @@ export function Header() {
                 <Link href="/dealer-dashboard" className="flex items-center">
                   <LayoutDashboard className="mr-2 h-4 w-4" />
                   Dashboard
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/register" className="flex items-center">
+                  <User className="mr-2 h-4 w-4" />
+                  Become a Dealer
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/retailer-dashboard" className="flex items-center">
+                  <User className="mr-2 h-4 w-4" />
+                  Profile
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>

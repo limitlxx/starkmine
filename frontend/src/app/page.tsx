@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { ChevronLeft, ChevronRight, ArrowUpRight, Shield, Coins, BarChart3, Search } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ArrowUpRight, Shield, Coins, BarChart3, Search, Diamond, CreditCard } from 'lucide-react'
 import Image from "next/image"
 import { Typewriter } from "@/components/typewriter"
 import { Sidebar } from "@/components/sidebar"
@@ -110,7 +110,7 @@ export default function Home() {
             </Button>
           </div>
         </div>
-        <div className="absolute inset-0 bg-[url('/gold-pattern.jpg')] opacity-10 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[url('/gold-pattern.jpg')] opacity-90 mix-blend-overlay"></div>
       </section>
 
       <div className="container my-6 mx-auto px-4">
@@ -139,48 +139,108 @@ export default function Home() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {filteredPools.map((pool) => (
                 <Link href={`/nft/${pool.id}`} key={pool.id}>
-                  <Card className="overflow-hidden bg-zinc-800 transition-transform hover:scale-105">
-                    <div className="relative aspect-video bg-gradient-to-br from-yellow-400 to-yellow-600">
-                      <Image
-                        src="/gold-bar.jpg"
-                        alt="Gold Bar"
-                        fill
-                        className="object-cover mix-blend-overlay"
+                <Card className="group overflow-hidden bg-zinc-800 transition-transform hover:scale-105">
+                  <div className="relative aspect-video">
+                    <svg
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 430 270"
+                      preserveAspectRatio="xMidYMid slice"
+                      className="absolute inset-0"
+                    >
+                      <defs>
+                        <linearGradient id={`cardGradient-${pool.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#FFD700" />
+                          <stop offset="50%" stopColor="#DAA520" />
+                          <stop offset="100%" stopColor="#B8860B" />
+                        </linearGradient>
+                        <linearGradient id={`shimmer-${pool.id}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+                          <stop offset="50%" stopColor="rgba(255,255,255,0.2)" />
+                          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+                        </linearGradient>
+                      </defs>
+      
+                      {/* Background with shimmer */}
+                      <rect
+                        width="100%"
+                        height="100%"
+                        fill={`url(#cardGradient-${pool.id})`}
                       />
-                      <div className="absolute bottom-2 left-2 flex items-center gap-2 rounded-full bg-white/90 px-2 py-1 text-xs font-medium text-zinc-900">
-                        <Image
-                          src={pool.icon}
-                          alt={`${pool.dealer} logo`}
-                          width={16}
-                          height={16}
-                          className="rounded-full"
+                      <rect
+                        width="100%"
+                        height="100%"
+                        fill={`url(#shimmer-${pool.id})`}
+                        opacity="0.5"
+                      >
+                        <animate
+                          attributeName="x"
+                          from="-430"
+                          to="430"
+                          dur="2s"
+                          repeatCount="indefinite"
                         />
-                        {pool.dealer}
-                      </div>
+                      </rect>
+      
+                      {/* Weight overlay */}
+                      <text
+                        x="50%"
+                        y="50%"
+                        fontFamily="monospace"
+                        fontSize="32"
+                        fill="rgba(255,255,255,0.9)"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        letterSpacing="0.1em"
+                      >{`${pool.kg} KG`}</text>
+                    </svg>
+      
+                    {/* Dealer badge src={pool.icon} */}
+                    <div className="absolute bottom-2 left-2 flex items-center gap-2 rounded-full bg-white/90 px-2 py-1 text-xs font-medium text-zinc-900">
+                      <Image
+                        src="/argent.svg"
+                        alt={`${pool.dealer} logo`}
+                        width={16}
+                        height={16}
+                        className="rounded-full"
+                      />
+                      {pool.dealer}
                     </div>
-                    <div className="p-4">
-                      <div className="mb-4 flex items-center justify-between">
-                        <span className="text-lg font-bold text-white">{pool.kg} KG</span>
-                        <Button variant="ghost" size="icon" className="text-orange-500 hover:text-orange-400">
-                          <ArrowUpRight className="h-5 w-5" />
-                        </Button>
-                      </div>
-                      <div className="text-sm text-zinc-400">{pool.rate}</div>
-                      <div className="mt-4 flex gap-2">
-                        {pool.inVault && (
-                          <span className="rounded-full bg-green-900/20 px-3 py-1 text-xs font-medium text-green-400">
-                            INVAULT
-                          </span>
-                        )}
-                        {pool.verified && (
-                          <span className="rounded-full bg-blue-900/20 px-3 py-1 text-xs font-medium text-blue-400">
-                            VERIFIED
-                          </span>
-                        )}
-                      </div>
+      
+                    {/* Certification icon */}
+                    <div className="absolute right-2 top-2">
+                      <Diamond className="h-6 w-6 text-white/70" />
                     </div>
-                  </Card>
-                </Link>
+                  </div>
+      
+                  <div className="p-4">
+                    <div className="mb-4 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <CreditCard className="h-4 w-4 text-orange-500" />
+                        <span className="text-lg font-bold text-white">Gold NFT</span>
+                      </div>
+                      <Button variant="ghost" size="icon" className="text-orange-500 hover:text-orange-400">
+                        <ArrowUpRight className="h-5 w-5" />
+                      </Button>
+                    </div>
+      
+                    <div className="text-sm text-zinc-400">{pool.rate}</div>
+      
+                    <div className="mt-4 flex gap-2">
+                      {pool.inVault && (
+                        <span className="rounded-full bg-green-900/20 px-3 py-1 text-xs font-medium text-green-400">
+                          INVAULT
+                        </span>
+                      )}
+                      {pool.verified && (
+                        <span className="rounded-full bg-blue-900/20 px-3 py-1 text-xs font-medium text-blue-400">
+                          VERIFIED
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              </Link>
               ))}
             </div>
 
