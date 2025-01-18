@@ -606,8 +606,7 @@ export default function MintGold() {
                         title={form.watch('title') || 'Gold NFT'}
                         weight={form.watch('weight') || '0'}
                         purity={form.watch('purity') || '0'}
-                        serialNumber={form.watch('serialNumber') || 'N/A'}
-                      />
+                        serialNumber={form.watch('serialNumber') || 'N/A'} issueDate={""}                      />
                     </div>
                   </div>
                 </div>
