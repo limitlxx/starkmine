@@ -18,7 +18,7 @@ export function Header() {
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/starkmine-logo.svg"
+            src="/starkmine-logo.png"
             alt="Starkmine Logo"
             width={32}
             height={32}

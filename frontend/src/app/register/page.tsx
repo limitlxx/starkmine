@@ -77,24 +77,29 @@ export default function RegisterMiner() {
             case 2:
                 return (
                     <>
-                        <h1 className="mb-6 text-xl font-bold text-zinc-900">Business Information</h1>
+                        <h1 className="mb-6 text-xl font-bold">Business Information</h1>
                         <div className="space-y-6">
+
                             <FileUpload
                                 label="Government Issued ID"
                                 onChange={(file) => updateForm('governmentId', file)}
                             />
+                            <small>Government Issued ID</small>
                             <FileUpload
                                 label="Proof of Address"
                                 onChange={(file) => updateForm('proofOfAddress', file)}
                             />
+                            <small>Proof of Address</small>
                             <FileUpload
                                 label="Certificate of Incorporation"
                                 onChange={(file) => updateForm('certificateOfIncorporation', file)}
                             />
+                            <small>Certificate of Incorporation</small>
                             <FileUpload
                                 label="Memorandum and Articles of Association"
                                 onChange={(file) => updateForm('memorandumArticles', file)}
                             />
+                             <small>Memorandum and Articles of Association</small>
                             <div className="space-y-2">
                                 <label className="text-sm text-zinc-600">Tax Identification Number (TIN)</label>
                                 <Input
@@ -109,6 +114,7 @@ export default function RegisterMiner() {
                                 label="Business License"
                                 onChange={(file) => updateForm('businessLicense', file)}
                             />
+                             <small>Business License</small>
                         </div>
                     </>
                 )
@@ -121,14 +127,17 @@ export default function RegisterMiner() {
                                 label="Source of Funds"
                                 onChange={(file) => updateForm('sourceOfFunds', file)}
                             />
+                            <small>Source of Funds</small>
                             <FileUpload
                                 label="Bank Statements"
                                 onChange={(file) => updateForm('bankStatements', file)}
                             />
+                            <small>Bank Statements</small>
                             <FileUpload
                                 label="Proof of Gold Source"
                                 onChange={(file) => updateForm('proofOfGoldSource', file)}
                             />
+                            <small>Proof of Gold Source</small>
                         </div>
                     </>
                 )
